@@ -1,0 +1,44 @@
+module full_adder_mux (
+    input wire a, b, c,
+    output wire sum, cout
+);
+
+    wire w1, w2, w3;
+    assign w1 = a ^ b;
+    assign w2 = a & b;
+    assign w3 = w2 | (c & w1);
+    assign sum = w1 ^ c;
+    assign cout = w3;
+
+endmodule
+
+
+// Code your testbench here
+// or browse Examples
+module HfAdd1_tb ;
+  wire t_cout ,t_sum ;
+  reg t_a , t_b,t_c ;
+  full_adder_mux my_gate(.a(t_a),.b(t_b),.c(t_c),.sum(t_sum),.cout(t_cout));
+  initial begin
+    $monitor("a=%d , b=%d ,c=%d,sum=%d, cout=%d",t_a ,t_b,t_c ,t_sum,t_cout);
+    $display("The Input And Output are ");
+    $dumpfile("HfAdd1_tb.vcd");
+    $dumpvars(1,HfAdd1_tb);
+    t_a = 1'b0 ; t_b = 1'b0;t_c =1'b0;
+    #5
+    t_a = 1'b0 ; t_b = 1'b0;t_c =1'b1;
+    #5
+    t_a = 1'b0 ; t_b = 1'b1;t_c =1'b0;
+    #5
+    t_a = 1'b0 ; t_b = 1'b1;t_c =1'b1;
+    #5
+    t_a = 1'b1 ; t_b = 1'b0;t_c =1'b0;
+    #5
+    t_a = 1'b1 ; t_b = 1'b0;t_c =1'b1;
+    #5
+    t_a = 1'b1 ; t_b = 1'b1;t_c =1'b0;
+    #5
+    t_a = 1'b1 ; t_b = 1'b1;t_c =1'b1;
+    #5;
+  end
+endmodule
