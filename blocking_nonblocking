@@ -1,0 +1,17 @@
+module main;
+  integer a,b ,c ;
+  initial begin
+        a=10;b= 20 ;c= 15;
+  end
+  initial begin
+    $monitor("time=%0d,a=%0d,b=%0d,c=%0d",$time,a,b,c);
+    b <= b+c;
+    b<= #2 b+5;#2c<= b-a;
+    c<=#4 a-10;#5 c<= a-b;
+    end
+endmodule
+
+time=0,a=10,b=35,c=15
+time=2,a=10,b=25,c=25
+time=6,a=10,b=25,c=0
+time=7,a=10,b=25,c=-15
