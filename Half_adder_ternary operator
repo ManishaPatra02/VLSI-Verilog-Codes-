@@ -33,3 +33,11 @@ module HfAdd1_tb ;
      t_a = 1'b1 ; t_b = 1'b1;
   end
 endmodule
+
+
+Output
+The Input And Output are 
+a=0 , b=0 ,c=0, s=0
+a=0 , b=1 ,c=0, s=1
+a=1 , b=0 ,c=0, s=1
+a=1 , b=1 ,c=1, s=0
