@@ -1,0 +1,47 @@
+// Code your design here
+module add_sub(
+    input a_s,
+    input [3:0]A,B,
+    output [3:0]sum_diff,
+    output carry_brrow
+);
+
+wire [3:0]Bmod;
+
+assign Bmod = {4{a_s}} ^ B;
+
+rca rca0(sum_diff,carry_brrowA,Bmod,a_s);
+
+endmodule
+
+module rca(s,c,p,q,r);
+  input p,q,r;
+  output s,c ;
+  assign s = p^q^r ;
+  assign c = r&(p^q)|(p&q)&(r|~r);
+endmodule
+
+
+// Code your testbench here
+// or browse Examples
+module add_sub_tb;
+
+reg a_s;
+reg [3:0]A,B;
+wire [3:0]sum_diff;
+wire carry_borrow;
+
+add_sub uut(a_s,A,B,sum_diff,carry_brrow);
+
+initial begin 
+A = 5; B = 3;
+a_s = 0; //Additin
+#20
+a_s = 1; //Subtraction
+#20
+$finish();
+end
+
+endmodule
+
+
