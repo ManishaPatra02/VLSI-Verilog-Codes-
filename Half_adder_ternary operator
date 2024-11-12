@@ -1,0 +1,35 @@
+//
+
+module HfAdd_df(a,b,c,s);
+  input a,b  ;
+  output c ,s;
+  assign s =(a==b)?0:1;
+  assign c =(a&b)?1:0; 
+endmodule
+/*s=(a!b)?1:0;
+s =(a^b)?1:0;
+s = (a?(b?0:1):(b?1:0));*/
+
+
+
+
+// Code your testbench here
+// or browse Examples
+module HfAdd1_tb ;
+  wire t_c ,t_s ;
+  reg t_a , t_b ;
+  HfAdd_df my_gate(.a(t_a),.b(t_b),.c(t_c),.s(t_s));
+  initial begin
+    $monitor("a=%d , b=%d ,c=%d, s=%d",t_a ,t_b ,t_c,t_s);
+    $display("The Input And Output are ");
+    $dumpfile("HfAdd1_tb.vcd");
+    $dumpvars(1,HfAdd1_tb);
+    t_a = 1'b0 ; t_b = 1'b0;
+    #5
+     t_a = 1'b0 ; t_b = 1'b1;
+    #5
+     t_a = 1'b1 ; t_b = 1'b0;
+    #5
+     t_a = 1'b1 ; t_b = 1'b1;
+  end
+endmodule
