@@ -1,0 +1,50 @@
+module moore_mc(output [2:0]st,y,input x,clk,rst); 
+  reg [2:0] state;
+  parameter sa=3'b000,sb=3'b001,sc=3'b011,sd=3'b110,se=3'b111;
+  always @(posedge clk,negedge rst)
+    if (rst==0)state<=sa;
+  else 
+    case (state)
+      sa:if(~x)state<=se; else state=sb;
+      sb:if(~x)state<=sa;else state=sc;
+      sc:if(~x)state<=sb; else state=sd;
+      sd:if(~x)state<=sc; else state=se;
+      se:if(~x)state<=sd; else state=sa;  
+    endcase
+  assign y=(state==sb)|(state==sc)|(state==se);
+  assign st=state;
+endmodule
+
+
+module  moore_mc_tb;
+  wire[2:0]t_st,t_y;
+  reg t_x,t_clk,t_rst;
+  moore_mc m0(t_st,t_y,t_x,t_clk,t_rst);
+  initial #200 $finish;
+    always #5t_clk=~t_clk;
+  initial fork
+    $dumpfile(" moore_mc_tb.vcd");
+    $dumpvars(1,moore_mc_tb);
+    t_clk=0;
+    t_x=1;
+    t_rst=0;
+    #2t_rst=1;
+    #7t_rst=0;
+    #9t_rst=1;
+    #87t_rst=0;
+    #89t_rst=1;
+    #4t_x=0;
+    #30t_x=1;
+    #40t_x=0;
+    #50t_x=1;
+    #60t_x=0;
+    #70t_x=1;
+    #80t_x=0;
+    #90t_x=1;
+    #100t_x=0;
+    #120t_x=1;
+    #160t_x=0;
+    #170t_x=1;
+  join
+endmodule
+
