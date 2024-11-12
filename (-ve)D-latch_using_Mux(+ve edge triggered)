@@ -1,0 +1,43 @@
+module dff(input d, clk,output q,qb);
+  wire w1,w2;
+  mux2 m1 (clk,d,w1,w1);
+  mux2 m2 (~clk,w1,w2,w2);
+  assign q = w2;
+  assign qb = ~q ;
+endmodule
+module mux2(s,a,b,y);
+  input s,a,b;
+  output reg y;
+  always @(s,a,b)
+    begin
+      case(s)
+        1'b0:y<=a;
+        1'b1:y<=b;
+        default:y<=0;
+      endcase
+    end
+endmodule
+
+// Code your testbench here
+// or browse Examples
+module d_latch_tb;
+  reg d,clk;
+  wire q,qb;
+  dff d10(d,clk,q,qb);
+  always#5clk<=~clk;
+  initial begin
+    $dumpfile("d_latch_tb.vcd");
+    $dumpvars(1,d_latch_tb);
+    {clk,d}<=0;
+    #10 d=0;
+    #8 d=1;
+    #8 d=0;
+    #8 d=1;
+    #8 d=0;
+    #8 d=1;
+    #8 d=0;
+    #8 d=1;
+    #8 d=0;
+    #2 $finish;
+  end
+endmodule
