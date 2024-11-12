@@ -1,0 +1,29 @@
+module ring_cbtr(clk,init,count);
+  input clk,init;
+  output reg[7:0]count;
+  always@(posedge clk)
+    begin
+      if(init)
+        count=8'b10000000;
+        else
+          begin
+            count<=count<<1;
+            count[0]<=count[7];
+          end
+end
+endmodule
+
+module ring_counter_tb;
+  reg clk,init;
+  wire [7:0]count; integer i;
+  
+  ring_cbtr rc(clk,init,count);
+  always#5clk=~clk;
+  
+  initial begin
+    clk<=0; init<=1;
+    $monitor ("[%0t]init=%0b, count=%b",$time,init,count);
+    #7init=0;
+    #50 $finish;
+end
+endmodule

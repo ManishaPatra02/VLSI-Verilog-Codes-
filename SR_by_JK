@@ -1,0 +1,48 @@
+module jk_ff(input s,r,clk,rstn,output q,qb);
+  assign qb = ~q ;
+  assign s = j;
+  assign r = k ;
+  sr_ff d0(s,r,clk,rstn,q,qb);
+  endmodule
+module sr_ff(input s,r,clk,rst, output reg q , qb);
+  always@(clk,rst)
+    begin
+      if(!rst)
+        q<=0;
+      else if(clk)
+        begin
+          q<=s|(q&(~r)); qb=~q;
+        end
+    end
+endmodule
+
+module jk_ff_tb;
+
+    reg j, k, clk, rstn;
+    wire q, qb;
+  jk_ff jk_flip (.j(j),.k(k),.clk(clk),.rstn(rstn),.q(q),.qb(qb));
+    always #5 clk = ~clk;
+    initial begin
+      $dumpfile("jk_ff_tb.vcd");
+      $dumpvars(1,jk_ff_tb);
+        clk = 0;
+        j = 0;
+        k = 0;
+        rstn = 0;
+        #10 rstn = 1;
+        #10 j = 0; k = 0;
+        #10 j = 0; k = 0;
+        #10 j = 0; k = 1;
+        #10 j = 0; k = 1;
+        #10 j = 1; k = 0;
+        #10 j = 1; k = 0;
+        #10 j = 1; k = 1;
+        #10 j = 1; k = 1;
+        #10 $finish;
+    end
+    always @(posedge clk) begin
+      $display("Time=%0t j=%b k=%b q=%b qb=%b", $time, j, k, q, qb);
+    end
+
+endmodule
+
