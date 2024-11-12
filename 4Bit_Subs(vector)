@@ -1,0 +1,55 @@
+module Bit4_Subs(A,B,d,b1);
+  input [3:0]A,B;
+  output [3:0]d;
+  output b1 ;
+  wire [2:0]b ;
+  full_subs d1(d[0],b[0],A[0],B[0],0);
+  full_subs d2(d[1],b[1],A[1],B[1],b[0]);
+  full_subs d3(d[2],b[2],A[2],B[2],b[1]);
+  full_subs d4(d[3],b1,A[3],B[3],b[2]);
+endmodule
+
+module full_subs(diff,borr,a,b,m);
+  input a , b,m ;
+  output diff ,borr;
+  assign diff = a ^ b ^m;
+  assign borr = (~(a ^ b)&m)+(~a&b);
+endmodule
+
+
+// Code your testbench here
+// or browse Examples
+module Mux_behav_tb ;
+  wire [3:0]d;
+  wire b;
+  reg [3:0]A,B;
+  integer i ;
+  Bit4_Subs my_gate(A,B,d,b);
+  initial begin
+    {A,B} = 0;
+    $display("The Input And Output are ");
+    $dumpfile("Mux_behav_tb.vcd");
+    $dumpvars(1,Mux_behav_tb);
+    $monitor("time=%0d,A=%d,B=%d,d=%d",$time,A,B,{b,d});//by using %b & using %d
+    for(i = 0 ; i<=10 ; i++)
+      begin
+        A = $random ;
+        B = $random ;
+    	#2 ;
+    end
+  end
+endmodule
+
+
+The Input And Output are 
+time=0,A= 4,B= 1,d= 3
+time=2,A= 9,B= 3,d= 6
+time=4,A=13,B=13,d= 0
+time=6,A= 5,B= 2,d= 3
+time=8,A= 1,B=13,d=20
+time=10,A= 6,B=13,d=25
+time=12,A=13,B=12,d= 1
+time=14,A= 9,B= 6,d= 3
+time=16,A= 5,B=10,d=27
+time=18,A= 5,B= 7,d=30
+time=20,A= 2,B=15,d=19
