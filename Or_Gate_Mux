@@ -1,0 +1,31 @@
+module or_mux (
+    input wire a, b,
+    output wire c);
+  mux2 m1(a,b,1,c);
+endmodule
+module mux2(s,a,b,y);
+  input s,a,b ;
+  output y;
+  assign y = (~s&a)|(s&b);
+endmodule
+
+
+// Code your testbench here
+// or browse Examples
+module and1_tb ;
+  wire t_c ;
+  reg t_a , t_b ;
+  or_mux my_gate(.a(t_a),.b(t_b),.c(t_c));
+  initial begin
+    $monitor("time=%0d,a=%d , b=%d ,c=%d",$time,t_a ,t_b ,t_c);
+    t_a = 1'b0 ; t_b = 1'b0;
+    #5
+     t_a = 1'b0 ; t_b = 1'b1;
+    #5
+     t_a = 1'b1 ; t_b = 1'b0;
+    #5
+     t_a = 1'b1 ; t_b = 1'b1;
+  end
+endmodule
+
+    
