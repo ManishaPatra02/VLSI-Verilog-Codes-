@@ -1,0 +1,52 @@
+module Full_Add_df(a,b,,m,c,s);
+  input a , b,m ;
+  output c ,s;
+  assign s =  a?(b?(m?1:0) : (m?0:1)):(b?(m?0:1):(m?1:0));
+  assign c = a?(b?(m?1:1):(m?1:0)):(b?(m?1:0):(m?0:0));
+endmodule
+
+/*s = a^b^c?1:0;
+c = a==0?(b&d?1:0):(b|d?1:0)*/
+
+
+// Code your testbench here
+// or browse Examples
+module HfAdd1_tb ;
+  wire t_c ,t_s ;
+  reg t_a , t_b,t_m ;
+  Full_Add_df my_gate(.a(t_a),.b(t_b),.m(t_m),.c(t_c),.s(t_s));
+  initial begin
+    $monitor("a=%d , b=%d ,m=%d,c=%d, s=%d",t_a ,t_b,t_m ,t_c,t_s);
+    $display("The Input And Output are ");
+    $dumpfile("HfAdd1_tb.vcd");
+    $dumpvars(1,HfAdd1_tb);
+    t_a = 1'b0 ; t_b = 1'b0;t_m =1'b0;
+    #5
+    t_a = 1'b0 ; t_b = 1'b0;t_m =1'b1;
+    #5
+    t_a = 1'b0 ; t_b = 1'b1;t_m =1'b0;
+    #5
+    t_a = 1'b0 ; t_b = 1'b1;t_m =1'b1;
+    #5
+    t_a = 1'b1 ; t_b = 1'b0;t_m =1'b0;
+    #5
+    t_a = 1'b1 ; t_b = 1'b0;t_m =1'b1;
+    #5
+    t_a = 1'b1 ; t_b = 1'b1;t_m =1'b0;
+    #5
+    t_a = 1'b1 ; t_b = 1'b1;t_m =1'b1;
+    #5;
+  end
+endmodule
+
+
+output
+The Input And Output are 
+a=0 , b=0 ,m=0,c=0, s=0
+a=0 , b=0 ,m=1,c=0, s=1
+a=0 , b=1 ,m=0,c=0, s=1
+a=0 , b=1 ,m=1,c=1, s=0
+a=1 , b=0 ,m=0,c=0, s=1
+a=1 , b=0 ,m=1,c=1, s=0
+a=1 , b=1 ,m=0,c=1, s=0
+a=1 , b=1 ,m=1,c=1, s=1
