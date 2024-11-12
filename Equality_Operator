@@ -1,0 +1,17 @@
+// Code your testbench here
+// or browse Examples
+module eq_operator;
+  reg a,b,c,d,e,f;
+  reg[3:0]p,q,r,s;
+  initial begin
+    a = 1'b0; b=1'b1;
+    p=4'b10z1;q=4'b10x1;
+    r=4'b1011; s=4'b1011;
+    c=(p === q);
+    d= (r == s);
+    $display("c= %b,d=%b",c,d);
+    e=(p!==q);
+    f=(r!=s);
+    $display("e= %b,f=%b",e,f);
+  end
+endmodule

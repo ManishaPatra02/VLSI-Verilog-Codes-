@@ -1,0 +1,28 @@
+module initial_example;
+  reg a,b ,c ;
+  wire sum ,count ;
+  initial begin
+    c = 1'b0 ;
+    #15 c = 1'b1;
+    #5 c = 1'b0;
+    #5 c = 1'b1;
+    #5 c = 1'b0;#3;
+  end
+  
+  initial begin
+        #5 a = 1'b1; b=1'b1;#5;
+        #5 b = 1'b0;
+  end
+
+  initial fork
+       // #7 b = 1'b0;
+    $monitor("time=%0d,a=%b,b=%b,c=%b",$time,a,b,c);
+    #25 $finish;
+  join
+endmodule
+
+
+time=0,a=x,b=x,c=0
+time=5,a=1,b=1,c=0
+time=15,a=1,b=0,c=1
+time=20,a=1,b=0,c=0
